@@ -21,26 +21,38 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Fetch active project and counts for persistent badges across entire app
-  const project = await prisma.project.findFirst({
-    orderBy: { createdAt: 'desc' },
-    include: {
-      reviewerComments: {
-        where: { status: { not: 'Selesai' } },
-      },
-      tasks: {
-        where: { isCompleted: false },
-      },
-      notifications: {
-        orderBy: { createdAt: 'desc' },
-        take: 5,
-      },
-    },
-  });
+  // Resilient data fetching with fallbacks to guarantee zero server-side crashes
+  let unresolvedRevisionsCount = 0;
+  let pendingTasksCount = 0;
+  let notifications: any[] = [];
+  let projectTitle = 'Keyfa PA Companion';
 
-  const unresolvedRevisionsCount = project?.reviewerComments.length || 0;
-  const pendingTasksCount = project?.tasks.length || 0;
-  const notifications = project?.notifications || [];
+  try {
+    const project = await prisma.project.findFirst({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        reviewerComments: {
+          where: { status: { not: 'Selesai' } },
+        },
+        tasks: {
+          where: { isCompleted: false },
+        },
+        notifications: {
+          orderBy: { createdAt: 'desc' },
+          take: 5,
+        },
+      },
+    });
+
+    if (project) {
+      unresolvedRevisionsCount = project.reviewerComments.length || 0;
+      pendingTasksCount = project.tasks.length || 0;
+      notifications = project.notifications || [];
+      projectTitle = project.shortTitle || project.title || 'Keyfa PA Companion';
+    }
+  } catch (err) {
+    console.error('Database connection warning in RootLayout (using fallback):', err);
+  }
 
   return (
     <html lang="id" suppressHydrationWarning>
@@ -89,7 +101,7 @@ export default async function RootLayout({
             unresolvedRevisionsCount={unresolvedRevisionsCount}
             pendingTasksCount={pendingTasksCount}
             notifications={notifications}
-            projectTitle={project?.shortTitle || 'Keyfa PA Companion'}
+            projectTitle={projectTitle}
           >
             {children}
           </AppShell>
