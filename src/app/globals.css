@@ -1,0 +1,251 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 45, 36, 38;
+  --background-start-rgb: 254, 248, 249;
+  --background-end-rgb: 255, 255, 255;
+  color-scheme: light;
+}
+
+.dark {
+  --foreground-rgb: 255, 240, 243;
+  --background-start-rgb: 36, 30, 32;
+  --background-end-rgb: 45, 37, 40;
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  color: #2D2426;
+  background-color: #FAF5F5;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+  overflow-x: hidden;
+}
+
+.dark body {
+  color: #FFF0F3 !important;
+  background-color: #241E20 !important;
+}
+
+/* Custom Soft Pink Scrollbar (Light) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF4DE;
+}
+::-webkit-scrollbar-thumb {
+  background: #FFCED8;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #F5A8B8;
+}
+
+/* Custom Rose-Cocoa Scrollbar (Dark - #241E20 Theme) */
+.dark ::-webkit-scrollbar-track {
+  background: #2D2528 !important;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #5A3B44 !important;
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #863043 !important;
+}
+
+/* Smooth Clean Page Transitions (Pure opacity without transform so position:fixed modals cover full screen) */
+@keyframes pageFadeIn {
+  0% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.page-transition {
+  animation: pageFadeIn 0.15s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: pageFadeIn 0.15s ease-out forwards;
+}
+
+/* Safe area padding for mobile notches */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 8px);
+}
+
+/* ==========================================================================
+   DARK MODE COMPONENT HARMONIZATION (Palette #241E20 & Warm Velvet Tones)
+   ========================================================================== */
+
+/* Dark Mode Backgrounds */
+.dark .bg-white {
+  background-color: #2D2528 !important;
+}
+.dark .bg-\[\#FAF5F5\] {
+  background-color: #241E20 !important;
+}
+.dark .bg-\[\#FFF9FA\] {
+  background-color: #1E1719 !important;
+}
+.dark .bg-\[\#FFF9FA\]\/90 {
+  background-color: rgba(30, 23, 25, 0.92) !important;
+}
+.dark .bg-\[\#FFF9FA\]\/95 {
+  background-color: rgba(30, 23, 25, 0.95) !important;
+}
+.dark .bg-\[\#FFF5F7\] {
+  background-color: #251D20 !important;
+}
+.dark .bg-\[\#FFF8F9\] {
+  background-color: #281F22 !important;
+}
+.dark .bg-\[\#FFF0F3\] {
+  background-color: #38242A !important;
+}
+.dark .bg-\[\#FFF4DE\] {
+  background-color: #382C24 !important;
+}
+.dark .bg-\[\#FFF4DE\]\/70 {
+  background-color: rgba(56, 44, 36, 0.7) !important;
+}
+.dark .bg-\[\#FFE8C4\] {
+  background-color: #483424 !important;
+}
+.dark .bg-\[\#FFDDDD\] {
+  background-color: #422831 !important;
+}
+.dark .bg-\[\#FFCED8\] {
+  background-color: #4F2B36 !important;
+}
+
+/* Dark Mode Hover States */
+.dark .hover\:bg-\[\#FFF0F3\]:hover {
+  background-color: #38242A !important;
+}
+.dark .hover\:bg-\[\#FFF9FA\]:hover {
+  background-color: #2A1F24 !important;
+}
+.dark .hover\:bg-\[\#FFDDDD\]:hover {
+  background-color: #482C36 !important;
+}
+.dark .hover\:bg-\[\#FFDDDD\]\/60:hover {
+  background-color: rgba(66, 40, 49, 0.6) !important;
+}
+.dark .hover\:bg-\[\#FFF4DE\]:hover {
+  background-color: #443226 !important;
+}
+.dark .hover\:bg-\[\#FFF5F7\]:hover {
+  background-color: #2D2226 !important;
+}
+
+/* Dark Mode Borders */
+.dark .border-\[\#FFCED8\],
+.dark .border-\[\#FFDDDD\],
+.dark .border-\[\#FFE8C4\],
+.dark .border-\[\#F5A8B8\],
+.dark .border-\[\#FAD89E\] {
+  border-color: #4D383E !important;
+}
+.dark .border-\[\#FFDDDD\]\/80 {
+  border-color: rgba(77, 56, 62, 0.8) !important;
+}
+.dark .border-\[\#FFCED8\]\/40 {
+  border-color: rgba(77, 56, 62, 0.4) !important;
+}
+.dark .border-\[\#FFCED8\]\/80 {
+  border-color: rgba(77, 56, 62, 0.8) !important;
+}
+.dark .divide-\[\#FFF0F3\],
+.dark .divide-\[\#FFDDDD\],
+.dark .divide-\[\#FFCED8\] {
+  border-color: #3D2C31 !important;
+}
+
+/* Dark Mode Typography */
+.dark .text-\[\#3D3133\],
+.dark .text-\[\#2D2426\],
+.dark .text-slate-800,
+.dark .text-slate-900,
+.dark .text-gray-800,
+.dark .text-gray-900 {
+  color: #FFF0F3 !important;
+}
+.dark .text-\[\#6B5A5D\],
+.dark .text-\[\#544447\],
+.dark .text-slate-600,
+.dark .text-slate-500,
+.dark .text-gray-600,
+.dark .text-gray-500 {
+  color: #D4B8BE !important;
+}
+.dark .text-\[\#863043\],
+.dark .text-\[\#A84157\],
+.dark .text-\[\#C75C73\] {
+  color: #FFB3C6 !important;
+}
+.dark .text-\[\#A84157\]\/80,
+.dark .text-\[\#A84157\]\/90 {
+  color: rgba(255, 179, 198, 0.85) !important;
+}
+.dark .text-\[\#FFF4DE\],
+.dark .text-\[\#FFE8C4\] {
+  color: #FFE8C4 !important;
+}
+
+/* Dark Mode Forms and Controls */
+.dark input:not([type="checkbox"]):not([type="radio"]),
+.dark textarea,
+.dark select {
+  background-color: #241C1F !important;
+  color: #FFF0F3 !important;
+  border-color: #4D383E !important;
+}
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #8D767C !important;
+}
+.dark select option {
+  background-color: #2D2528 !important;
+  color: #FFF0F3 !important;
+}
+.dark kbd {
+  background-color: #36282E !important;
+  border-color: #4D383E !important;
+  color: #FFB3C6 !important;
+}
+
+/* Dark Mode Shadows */
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-lg,
+.dark .shadow-xl,
+.dark .shadow-2xl {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Dark Mode Gradient Buttons / Active Nav */
+.dark .from-\[\#FFCED8\].via-\[\#FFDDDD\].to-\[\#FFF4DE\],
+.dark .from-\[\#FFCED8\].via-\[\#FFDDDD\].to-\[\#FFE8C4\] {
+  background-image: linear-gradient(to right, #4D2633, #542D3B, #543428) !important;
+  color: #FFF0F3 !important;
+  border-color: #7A3C4E !important;
+}
+
+/* Mobile Quick Capture Center Button border */
+.dark .border-white {
+  border-color: #3D2C31 !important;
+}

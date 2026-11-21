@@ -1,0 +1,626 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  password     String
+  nim          String?
+  prodi        String?
+  institution  String?
+  avatar       String?
+  role         String        @default("STUDENT")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  projects     Project[]
+  activityLogs ActivityLog[]
+  notifications Notification[]
+}
+
+model Project {
+  id               String              @id @default(uuid())
+  userId           String
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title            String              @db.Text
+  shortTitle       String
+  academicYear     String              @default("2026/2027")
+  semester         String              @default("Genap")
+  category         String              @default("D4 TRPL")
+  status           String              @default("IN_PROGRESS") // PROPOSAL, REVISION, EXPERIMENT, DEFENSE, COMPLETED
+  targetCompletion DateTime?
+  description      String?             @db.Text
+  overallProgress  Int                 @default(0)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  milestones       Milestone[]
+  tasks            Task[]
+  reminders        Reminder[]
+  calendarEvents   CalendarEvent[]
+  proposalVersions ProposalVersion[]
+  proposalSections ProposalSection[]
+  reviewers        Reviewer[]
+  reviewerComments ReviewerComment[]
+  supervisors      Supervisor[]
+  consultations    Consultation[]
+  consultationQuestions ConsultationQuestion[]
+  datasets         Dataset[]
+  references       ResearchReference[]
+  experiments      Experiment[]
+  logbooks         Logbook[]
+  documents        Document[]
+  activityLogs     ActivityLog[]
+  notifications    Notification[]
+  defenseQuestions DefenseQuestion[]
+  defenseChecklists DefenseChecklist[]
+  quickCaptures    QuickCaptureNote[]
+}
+
+model Milestone {
+  id               String       @id @default(uuid())
+  projectId        String
+  project          Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  order            Int
+  title            String
+  description      String?      @db.Text
+  targetDate       DateTime?
+  status           String       @default("UPCOMING") // UPCOMING, IN_PROGRESS, COMPLETED, DELAYED
+  isCompleted      Boolean      @default(false)
+  completedAt      DateTime?
+  evidenceNotes    String?      @db.Text
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  tasks            Task[]
+  documents        Document[]
+}
+
+model Task {
+  id                 String           @id @default(uuid())
+  projectId          String
+  project            Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  milestoneId        String?
+  milestone          Milestone?       @relation(fields: [milestoneId], references: [id], onDelete: SetNull)
+  title              String
+  description        String?          @db.Text
+  category           String           @default("General") // Proposal, Revisi, Dataset, Experiment, Konsultasi, Seminar, Dokumen
+  priority           String           @default("Medium") // Low, Medium, High, Critical
+  status             String           @default("To Do") // To Do, In Progress, Review, Completed, Blocked
+  startDate          DateTime?
+  deadline           DateTime?
+  isCompleted        Boolean          @default(false)
+  completedAt        DateTime?
+  reviewerCommentId  String?
+  reviewerComment    ReviewerComment? @relation(fields: [reviewerCommentId], references: [id], onDelete: SetNull)
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  subtasks           Subtask[]
+  reminders          Reminder[]
+  logbooks           Logbook[]
+  documents          Document[]
+}
+
+model Subtask {
+  id          String   @id @default(uuid())
+  taskId      String
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  title       String
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Reminder {
+  id           String    @id @default(uuid())
+  projectId    String
+  project      Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskId       String?
+  task         Task?     @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  title        String
+  reminderType String    @default("DEADLINE") // REVISION_DEADLINE, SUPERVISOR_CONSULTATION, PROPOSAL_SUBMISSION, SEMINAR, EXPERIMENT_TARGET, PERSONAL
+  targetDate   DateTime
+  reminderTime String?   @default("09:00")
+  priority     String    @default("Medium") // Low, Medium, High, Critical
+  isNotified   Boolean   @default(false)
+  isDismissed  Boolean   @default(false)
+  notes        String?   @db.Text
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model CalendarEvent {
+  id          String    @id @default(uuid())
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title       String
+  description String?   @db.Text
+  eventType   String    @default("CONSULTATION") // CONSULTATION, DEADLINE, SEMINAR, DEFENSE, EXPERIMENT, REVISION, PERSONAL
+  startDate   DateTime
+  endDate     DateTime?
+  isAllDay    Boolean   @default(false)
+  location    String?
+  status      String    @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model ProposalVersion {
+  id              String            @id @default(uuid())
+  projectId       String
+  project         Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  versionName     String            // e.g. "v1.0 - Draft Awal", "v1.1 - Pasca Review Sempro"
+  versionNumber   Int               @default(1)
+  changedChapters String?           // e.g. "BAB I, BAB III"
+  changeSummary   String?           @db.Text
+  fileDocx        String?
+  filePdf         String?
+  approvalStatus  String            @default("DRAFT") // DRAFT, UNDER_REVIEW, REVISION_NEEDED, APPROVED
+  revisionNotes   String?           @db.Text
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  comments        ReviewerComment[]
+}
+
+model ProposalSection {
+  id             String         @id @default(uuid())
+  projectId      String
+  project        Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  chapter        String         // "BAB I", "BAB II", "BAB III"
+  subSectionCode String         // "1.1", "1.2", "2.1", "3.6"
+  title          String         // "Latar Belakang", "Preprocessing", "Pemodelan LDA"
+  contentOutline String?        @db.Text
+  status         String         @default("Belum dikerjakan") // Belum dikerjakan, Sedang dikerjakan, Perlu revisi, Menunggu pemeriksaan, Disetujui
+  notes          String?        @db.Text
+  lastEditedAt   DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  citations      CitationUsage[]
+  documents      Document[]
+}
+
+model Reviewer {
+  id          String            @id @default(uuid())
+  projectId   String
+  project     Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name        String
+  role        String            // "Reviewer 1", "Reviewer 2", "Penguji 1"
+  title       String?           // "M.Kom", "Dr. Eng", etc.
+  institution String?           @default("Politeknik Negeri Padang")
+  email       String?
+  notes       String?           @db.Text
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  comments    ReviewerComment[]
+}
+
+model ReviewerComment {
+  id                String           @id @default(uuid())
+  projectId         String
+  project           Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  reviewerId        String
+  reviewer          Reviewer         @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+  proposalVersionId String?
+  proposalVersion   ProposalVersion? @relation(fields: [proposalVersionId], references: [id], onDelete: SetNull)
+  reviewDate        DateTime         @default(now())
+  evaluationAspect  String           // "Metodologi", "Data Penelitian", "Format & Bahasa", "Arsitektur Sistem"
+  originalComment   String           @db.Text
+  chapterRelated    String?          // "BAB I", "BAB III", "Seluruh Naskah"
+  priority          String           @default("High") // Low, Medium, High, Critical
+  studentAnalysis   String?          @db.Text
+  repairPlan        String?          @db.Text
+  repairProof       String?          @db.Text
+  status            String           @default("Belum dikerjakan") // Belum dikerjakan, Sedang dikerjakan, Menunggu validasi dosen, Selesai, Perlu revisi ulang
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  revisionActions   RevisionAction[]
+  tasks             Task[]
+  documents         Document[]
+}
+
+model RevisionAction {
+  id                String          @id @default(uuid())
+  reviewerCommentId String
+  reviewerComment   ReviewerComment @relation(fields: [reviewerCommentId], references: [id], onDelete: Cascade)
+  actionDescription String          @db.Text
+  beforeText        String?         @db.Text
+  afterText         String?         @db.Text
+  evidenceFile      String?
+  status            String          @default("PLANNED") // PLANNED, IN_PROGRESS, RESOLVED, VERIFIED
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model Supervisor {
+  id                      String         @id @default(uuid())
+  projectId               String
+  project                 Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name                    String
+  roleTitle               String         // "Pembimbing 1 (Utama)", "Pembimbing 2 (Pendamping)"
+  position                String?        // "Ketua Jurusan TI", "Dosen KBK RPL"
+  phone                   String?
+  email                   String?
+  consultationPreferences String?        @db.Text
+  avatarUrl               String?
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+
+  consultations           Consultation[]
+  questions               ConsultationQuestion[]
+}
+
+model Consultation {
+  id                 String     @id @default(uuid())
+  projectId          String
+  project            Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  supervisorId       String
+  supervisor         Supervisor @relation(fields: [supervisorId], references: [id], onDelete: Cascade)
+  consultationDate   DateTime   @default(now())
+  mediaType          String     @default("Offline / Tatap Muka") // Offline / Tatap Muka, Google Meet, Zoom, WhatsApp
+  chapterDiscussed   String?    // "BAB I & BAB III", "Metodologi Preprocessing"
+  questionsAsked     String?    @db.Text
+  supervisorFeedback String     @db.Text
+  decisionResult     String?    @db.Text
+  nextActionTasks    String?    @db.Text
+  followupDeadline   DateTime?
+  proofAttachment    String?
+  status             String     @default("ACTION_REQUIRED") // ACTION_REQUIRED, IN_PROGRESS, RESOLVED
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+}
+
+model ConsultationQuestion {
+  id           String      @id @default(uuid())
+  projectId    String
+  project      Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  supervisorId String?
+  supervisor   Supervisor? @relation(fields: [supervisorId], references: [id], onDelete: SetNull)
+  questionText String      @db.Text
+  category     String      @default("Metodologi") // Metodologi, Dataset, Revisi Reviewer, Format Penulisan, Pengujian
+  status       String      @default("UNASKED") // UNASKED, ASKED, RESOLVED
+  answerNotes  String?     @db.Text
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Dataset {
+  id                   String               @id @default(uuid())
+  projectId            String
+  project              Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name                 String
+  currentVersion       String               @default("v1.0-raw")
+  receivedDate         DateTime?
+  source               String?              // "SITA PNP (Sistem Informasi Tugas Akhir)"
+  initialCount         Int                  @default(0)
+  cleanedCount         Int                  @default(0)
+  duplicatesRemoved    Int                  @default(0)
+  finalCount           Int                  @default(0)
+  regularCount         Int                  @default(0)
+  alihKreditCount      Int                  @default(0)
+  historicalPeriod     String?              // "2021-2025 (253 rekaman)"
+  holdoutPeriod        String?              // "2026 (121 rekaman)"
+  temporalHoldoutCount Int                  @default(0)
+  verificationStatus   String               @default("INITIAL_TITLE_ONLY") // INITIAL_TITLE_ONLY, ABSTRACT_EXPANDED, CLEANED, VALIDATED
+  description          String?              @db.Text
+  notes                String?              @db.Text
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+
+  versions             DatasetVersion[]
+  exclusions           DatasetExclusion[]
+  distributions        DatasetDistribution[]
+}
+
+model DatasetVersion {
+  id            String   @id @default(uuid())
+  datasetId     String
+  dataset       Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  versionNumber Int      @default(1)
+  versionName   String   // "v1.0 - Raw Title Dataset", "v1.1 - Preprocessed Stopwords"
+  fileName      String?
+  filePath      String?
+  fileSize      Int?     @default(0)
+  rowCount      Int      @default(0)
+  columnCount   Int      @default(0)
+  isFinal       Boolean  @default(false)
+  changeNotes   String?  @db.Text
+  uploadedAt    DateTime @default(now())
+}
+
+model DatasetExclusion {
+  id               String   @id @default(uuid())
+  datasetId        String
+  dataset          Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  recordIdentifier String   // ID / Title / Nim
+  exclusionRule    String   // "Duplikasi Judul", "Judul Tanpa Kata Kunci Relevan", "Non-TRPL"
+  reason           String   @db.Text
+  excludedAt       DateTime @default(now())
+}
+
+model DatasetDistribution {
+  id             String  @id @default(uuid())
+  datasetId      String
+  dataset        Dataset @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  categoryOrYear String  // "2021", "2022", "2023", "2024", "2025", "2026", "Reguler", "Alih Kredit"
+  count          Int     @default(0)
+  percentage     Float   @default(0.0)
+  distType       String  @default("YEAR") // "YEAR", "TRACK", "STATUS"
+}
+
+model ResearchReference {
+  id                 String          @id @default(uuid())
+  projectId          String
+  project            Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title              String          @db.Text
+  authors            String
+  year               Int
+  publicationVenue   String?         // "IEEE Access", "Jurnal RESTI", etc.
+  volume             String?
+  issue              String?
+  pages              String?
+  doi                String?
+  url                String?
+  method             String?         // "LDA", "N-Gram + LDA", "BERTopic", etc.
+  datasetInfo        String?         @db.Text
+  researchFindings   String?         @db.Text
+  advantages         String?         @db.Text
+  limitations        String?         @db.Text
+  relevanceToThesis  String?         @db.Text
+  chaptersCiting     String?         // "BAB I, BAB II"
+  isCited            Boolean         @default(false)
+  validationStatus   String          @default("VERIFIED") // PENDING, VERIFIED, INCOMPLETE_METADATA
+  pdfPath            String?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  notes              ReferenceNote[]
+  citationUsages     CitationUsage[]
+}
+
+model ReferenceNote {
+  id          String            @id @default(uuid())
+  referenceId String
+  reference   ResearchReference @relation(fields: [referenceId], references: [id], onDelete: Cascade)
+  noteTitle   String
+  content     String            @db.Text
+  tags        String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+model CitationUsage {
+  id                String            @id @default(uuid())
+  referenceId       String
+  reference         ResearchReference @relation(fields: [referenceId], references: [id], onDelete: Cascade)
+  proposalSectionId String?
+  proposalSection   ProposalSection?  @relation(fields: [proposalSectionId], references: [id], onDelete: SetNull)
+  chapter           String            // "BAB I", "BAB II", "BAB III"
+  paragraphSummary  String?           @db.Text
+  quoteText         String?           @db.Text
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model Experiment {
+  id                  String               @id @default(uuid())
+  projectId           String
+  project             Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  experimentCode      String               // "EXP-PRE-001", "EXP-LDA-002"
+  experimentType      String               @default("LDA") // PREPROCESSING, LDA, EVALUATION, COMPARISON
+  name                String
+  hypothesisOrGoal    String?              @db.Text
+  status              String               @default("COMPLETED") // PLANNED, RUNNING, COMPLETED, FAILED
+  executedAt          DateTime             @default(now())
+  notes               String?              @db.Text
+  isSelectedCandidate Boolean              @default(false)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  preprocessingConfig PreprocessingConfig?
+  ldaConfig           LdaConfig?
+  metric              ExperimentMetric?
+  topicModels         TopicModel[]
+}
+
+model PreprocessingConfig {
+  id                String     @id @default(uuid())
+  experimentId      String     @unique
+  experiment        Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+  caseFolding       Boolean    @default(true)
+  tokenization      Boolean    @default(true)
+  normalizationDict Boolean    @default(true)
+  stopwordRemoval   Boolean    @default(true)
+  ngramSetting      String     @default("Unigram + Bigram") // Unigram, Bigram, Unigram + Bigram
+  stemmingMethod    String     @default("Tanpa Stemming") // Sastrawi, Porter, Tanpa Stemming
+  customDictionary  String?    @db.Text
+  tokenCount        Int        @default(0)
+  uniqueVocabCount  Int        @default(0)
+  emptyDocCount     Int        @default(0)
+  oovRate           Float      @default(0.0)
+}
+
+model LdaConfig {
+  id                String     @id @default(uuid())
+  experimentId      String     @unique
+  experiment        Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+  numTopicsK        Int        @default(5)
+  alpha             String     @default("symmetric") // "auto", "symmetric", "0.01", "0.1"
+  etaBeta           String     @default("auto") // "auto", "symmetric", "0.01", "0.1"
+  passes            Int        @default(20)
+  iterations        Int        @default(200)
+  randomSeed        Int        @default(42)
+  libraryVersion    String     @default("gensim 4.3.2 / scikit-learn")
+  corpusVersion     String     @default("v1.0-bow")
+  dictionaryVersion String     @default("v1.0-filtered")
+}
+
+model ExperimentMetric {
+  id                 String     @id @default(uuid())
+  experimentId       String     @unique
+  experiment         Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+  coherenceCv        Float      @default(0.0)
+  topicDiversity     Float      @default(0.0)
+  redundancyScore    Float      @default(0.0)
+  jaccardSimilarity  Float      @default(0.0)
+  stabilityScore     Float      @default(0.0)
+  expertScore        Float?     @default(0.0)
+  interpretationNotes String?   @db.Text
+}
+
+model TopicModel {
+  id           String     @id @default(uuid())
+  experimentId String
+  experiment   Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+  modelName    String
+  kValue       Int
+  createdAt    DateTime   @default(now())
+
+  topics       Topic[]
+}
+
+model Topic {
+  id             String     @id @default(uuid())
+  topicModelId   String
+  topicModel     TopicModel @relation(fields: [topicModelId], references: [id], onDelete: Cascade)
+  topicNumber    Int
+  label          String     // e.g. "Sistem Informasi & Manajemen Berbasis Web"
+  topWords       String     @db.Text // "sistem, informasi, berbasis, web, manajemen, perancangan"
+  coherenceScore Float      @default(0.0)
+  interpretation String?    @db.Text
+}
+
+model Logbook {
+  id              String    @id @default(uuid())
+  projectId       String
+  project         Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskId          String?
+  task            Task?     @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  logDate         DateTime  @default(now())
+  activity        String
+  workSteps       String?   @db.Text
+  result          String?   @db.Text
+  obstacles       String?   @db.Text
+  solutions       String?   @db.Text
+  durationMinutes Int       @default(60)
+  attachmentUrl   String?
+  aiPolished      Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Document {
+  id                    String            @id @default(uuid())
+  projectId             String
+  project               Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title                 String
+  category              String            @default("Proposal") // Proposal, Jurnal, Dataset, Surat Izin, Konsultasi, Revisi, Preprocessing, Eksperimen, Diagram, Source Code, Seminar, Sidang
+  tags                  String?
+  currentVersion        String            @default("v1.0")
+  fileUrl               String
+  fileType              String            @default("PDF") // PDF, DOCX, XLSX, CSV, PNG, JPG, ZIP
+  fileSize              Int               @default(0)
+  relatedTaskId         String?
+  relatedTask           Task?             @relation(fields: [relatedTaskId], references: [id], onDelete: SetNull)
+  relatedMilestoneId    String?
+  relatedMilestone      Milestone?        @relation(fields: [relatedMilestoneId], references: [id], onDelete: SetNull)
+  relatedSectionId      String?
+  relatedSection        ProposalSection?  @relation(fields: [relatedSectionId], references: [id], onDelete: SetNull)
+  relatedReviewCommentId String?
+  relatedReviewComment  ReviewerComment?  @relation(fields: [relatedReviewCommentId], references: [id], onDelete: SetNull)
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  versions              DocumentVersion[]
+}
+
+model DocumentVersion {
+  id            String   @id @default(uuid())
+  documentId    String
+  document      Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  versionNumber Int      @default(1)
+  fileName      String
+  fileUrl       String
+  fileSize      Int      @default(0)
+  uploadNotes   String?  @db.Text
+  uploadedAt    DateTime @default(now())
+}
+
+model ActivityLog {
+  id         String   @id @default(uuid())
+  projectId  String
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  actionType String   // CREATE, UPDATE, DELETE, UPLOAD, STATUS_CHANGE, COMMENT
+  entityType String   // TASK, PROPOSAL, REVISION, DATASET, CONSULTATION, LOGBOOK, REFERENCE, EXPERIMENT
+  entityId   String?
+  title      String
+  details    String?  @db.Text
+  createdAt  DateTime @default(now())
+}
+
+model Notification {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId        String
+  project          Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title            String
+  message          String   @db.Text
+  notificationType String   @default("INFO") // DEADLINE_WARNING, REVIEWER_ACTION, CONSULTATION_ALERT, SYSTEM
+  priority         String   @default("Medium") // Low, Medium, High, Critical
+  isRead           Boolean  @default(false)
+  linkUrl          String?
+  createdAt        DateTime @default(now())
+}
+
+model DefenseQuestion {
+  id              String   @id @default(uuid())
+  projectId       String
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  category        String   // "Reviewer Comments", "Methodology / LDA", "Dataset", "System Architecture", "Evaluation"
+  question        String   @db.Text
+  suggestedAnswer String?  @db.Text
+  studentAnswer   String?  @db.Text
+  readinessStatus String   @default("BELUM_SIAP") // BELUM_SIAP, SEDANG_DIPELAJARI, SIAP, SANGAT_SIAP
+  difficulty      String   @default("Medium") // Easy, Medium, Hard
+  order           Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model DefenseChecklist {
+  id          String    @id @default(uuid())
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  stage       String    // "SEMPRO", "SEMHAS", "SIDANG_AKHIR"
+  itemTitle   String
+  isRequired  Boolean   @default(true)
+  isCompleted Boolean   @default(false)
+  verifiedAt  DateTime?
+  notes       String?   @db.Text
+}
+
+model QuickCaptureNote {
+  id                String    @id @default(uuid())
+  projectId         String
+  project           Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  category          String    @default("Catatan Cepat") // Ide Penelitian, Tugas Baru, Catatan Konsultasi, Arahan Dosen, Temuan Penelitian, Referensi Jurnal, Catatan Cepat
+  content           String    @db.Text
+  isProcessed       Boolean   @default(false)
+  convertedToTaskId String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}

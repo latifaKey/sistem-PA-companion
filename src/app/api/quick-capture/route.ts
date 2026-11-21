@@ -1,0 +1,69 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { logActivity } from '@/lib/activity';
+
+export const dynamic = 'force-dynamic';
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { category, content, createAsTask } = body;
+
+    if (!content || typeof content !== 'string') {
+      return NextResponse.json({ error: 'Konten catatan wajib diisi' }, { status: 400 });
+    }
+
+    const project = await prisma.project.findFirst({
+      orderBy: { createdAt: 'desc' },
+    });
+
+    if (!project) {
+      return NextResponse.json({ error: 'Project tidak ditemukan' }, { status: 404 });
+    }
+
+    // Save Quick Capture
+    const note = await prisma.quickCaptureNote.create({
+      data: {
+        projectId: project.id,
+        category: category || 'Catatan Cepat',
+        content,
+      },
+    });
+
+    // Optionally also create a Task directly if user checked "Buat sebagai Task"
+    let createdTask = null;
+    if (createAsTask) {
+      createdTask = await prisma.task.create({
+        data: {
+          projectId: project.id,
+          title: content.length > 80 ? content.slice(0, 80) + '...' : content,
+          description: `Dibuat dari Quick Capture [${category}]:\n${content}`,
+          category: category === 'Arahan Dosen' ? 'Konsultasi' : 'General',
+          priority: category === 'Arahan Dosen' ? 'High' : 'Medium',
+          status: 'To Do',
+        },
+      });
+
+      await prisma.quickCaptureNote.update({
+        where: { id: note.id },
+        data: {
+          isProcessed: true,
+          convertedToTaskId: createdTask.id,
+        },
+      });
+    }
+
+    await logActivity({
+      projectId: project.id,
+      actionType: 'CREATE',
+      entityType: 'TASK',
+      title: `Quick Capture: ${category}`,
+      details: content,
+    });
+
+    return NextResponse.json({ success: true, note, task: createdTask });
+  } catch (error: any) {
+    console.error('Error saving quick capture:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
