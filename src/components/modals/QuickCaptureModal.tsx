@@ -62,7 +62,14 @@ export function QuickCaptureModal({ isOpen, onClose }: QuickCaptureModalProps) {
         <div className="p-4 bg-gradient-to-r from-[#FFCED8] via-[#FFDDDD] to-[#FFE8C4] text-[#863043] flex items-center justify-between border-b border-[#FFCED8]">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-white p-1 shadow-sm flex items-center justify-center">
-              <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
+              <img
+                src="/logo-collapsed.png"
+                alt="Logo"
+                width={32}
+                height={32}
+                style={{ maxWidth: '32px', maxHeight: '32px', objectFit: 'contain' }}
+                className="w-full h-full object-contain"
+              />
             </div>
             <h3 className="font-extrabold text-sm">Quick Capture — Catat Cepat</h3>
           </div>

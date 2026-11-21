@@ -179,16 +179,22 @@ export function Sidebar({
               <img
                 src="/logo-collapsed.png"
                 alt="Keyfa Emblem"
+                width={44}
+                height={44}
+                style={{ maxWidth: '44px', maxHeight: '44px', objectFit: 'contain' }}
                 draggable={false}
                 className="w-full h-full object-contain pointer-events-none"
               />
             </div>
           ) : (
             /* Saat Terbuka: Logo Mengisi Ruang Header yang Ramping & Pas */
-            <div className="w-full h-full flex items-center justify-center px-1 py-1.5">
+            <div className="w-full h-full flex items-center justify-center px-1 py-1.5 max-h-16 overflow-hidden">
               <img
                 src="/logo-full.png"
                 alt="Keyfa PA Companion"
+                width={220}
+                height={48}
+                style={{ maxWidth: '100%', maxHeight: '48px', objectFit: 'contain' }}
                 draggable={false}
                 className="w-full h-full object-contain dark:bg-white/90 dark:rounded-xl dark:px-2 dark:py-1 group-hover:scale-[1.02] transition-transform pointer-events-none"
               />
@@ -274,10 +280,13 @@ export function Sidebar({
       >
         {/* Mobile Header with Logo & Theme Toggle + Close Button (Tinggi h-16 ramping) */}
         <div className="h-16 px-4 border-b border-[#FFDDDD]/80 dark:border-[#4D383E]/80 flex items-center justify-between bg-gradient-to-r from-[#FFF5F7] to-[#FFF4DE]/30 dark:from-[#251D20] dark:to-[#2A1F24] shrink-0">
-          <div className="w-40 h-full flex items-center py-1.5">
+          <div className="w-40 h-full flex items-center py-1.5 max-h-16 overflow-hidden">
             <img
               src="/logo-full.png"
               alt="Keyfa PA Companion"
+              width={160}
+              height={48}
+              style={{ maxWidth: '100%', maxHeight: '48px', objectFit: 'contain' }}
               className="w-full h-full object-contain dark:bg-white/90 dark:rounded-xl dark:px-2 dark:py-1"
             />
           </div>

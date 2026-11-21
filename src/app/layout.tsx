@@ -47,6 +47,22 @@ export default async function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              /* Critical pre-CSS reset to prevent initial image ballooning / FOUC */
+              img {
+                max-width: 100%;
+                height: auto;
+              }
+              aside img, header img {
+                max-height: 48px !important;
+                width: auto !important;
+                object-fit: contain !important;
+              }
+            `,
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
