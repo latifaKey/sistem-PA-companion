@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
+import { fallbackProject } from '@/lib/fallbackData';
 import {
   Calendar,
   CheckCircle2,
@@ -29,54 +30,56 @@ function getTimeGreeting() {
 }
 
 export default async function DashboardPage() {
-  const project = await prisma.project.findFirst({
-    orderBy: { createdAt: 'desc' },
-    include: {
-      user: true,
-      milestones: { orderBy: { order: 'asc' } },
-      tasks: {
-        orderBy: { deadline: 'asc' },
-        include: { subtasks: true },
+  let project: any = null;
+
+  try {
+    project = await prisma.project.findFirst({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        user: true,
+        milestones: { orderBy: { order: 'asc' } },
+        tasks: {
+          orderBy: { deadline: 'asc' },
+          include: { subtasks: true },
+        },
+        reviewerComments: {
+          include: { reviewer: true },
+          where: { status: { not: 'Selesai' } },
+        },
+        reminders: {
+          where: { isDismissed: false },
+          orderBy: { targetDate: 'asc' },
+          take: 5,
+        },
+        consultations: {
+          orderBy: { consultationDate: 'desc' },
+          take: 1,
+          include: { supervisor: true },
+        },
+        datasets: {
+          include: { distributions: true },
+        },
+        references: true,
+        activityLogs: {
+          orderBy: { createdAt: 'desc' },
+          take: 6,
+        },
       },
-      reviewerComments: {
-        include: { reviewer: true },
-        where: { status: { not: 'Selesai' } },
-      },
-      reminders: {
-        where: { isDismissed: false },
-        orderBy: { targetDate: 'asc' },
-        take: 5,
-      },
-      consultations: {
-        orderBy: { consultationDate: 'desc' },
-        take: 1,
-        include: { supervisor: true },
-      },
-      datasets: {
-        include: { distributions: true },
-      },
-      references: true,
-      activityLogs: {
-        orderBy: { createdAt: 'desc' },
-        take: 6,
-      },
-    },
-  });
+    });
+  } catch (error) {
+    console.warn('Database offline or unreachable, using fallback project data:', error);
+    project = fallbackProject;
+  }
 
   if (!project) {
-    return (
-      <div className="p-12 text-center">
-        <h2 className="text-xl font-bold text-[#3D3133]">Proyek belum diinisialisasi</h2>
-        <p className="text-sm text-[#A84157] mt-2">Jalankan seed data untuk memulai.</p>
-      </div>
-    );
+    project = fallbackProject;
   }
 
   // Calculate statistics
   const totalTasks = project.tasks.length;
-  const completedTasks = project.tasks.filter((t) => t.isCompleted || t.status === 'Completed').length;
-  const inProgressTasks = project.tasks.filter((t) => t.status === 'In Progress').length;
-  const pendingTasks = project.tasks.filter((t) => t.status === 'To Do' || t.status === 'Blocked').length;
+  const completedTasks = project.tasks.filter((t: any) => t.isCompleted || t.status === 'Completed').length;
+  const inProgressTasks = project.tasks.filter((t: any) => t.status === 'In Progress').length;
+  const pendingTasks = project.tasks.filter((t: any) => t.status === 'To Do' || t.status === 'Blocked').length;
   const unresolvedRevisions = project.reviewerComments.length;
   const totalReferences = project.references.length;
   const initialDataset = project.datasets[0];
@@ -95,7 +98,7 @@ export default async function DashboardPage() {
 
   // Filter tasks with deadlines
   const upcomingDeadlines = project.tasks
-    .filter((t) => t.deadline && !t.isCompleted)
+    .filter((t: any) => t.deadline && !t.isCompleted)
     .slice(0, 5);
 
   return (
@@ -264,7 +267,7 @@ export default async function DashboardPage() {
 
                 {/* List of active critical reviewer comments */}
                 <div className="mt-3.5 space-y-2.5">
-                  {project.reviewerComments.map((rc) => (
+                  {project.reviewerComments.map((rc: any) => (
                     <div
                       key={rc.id}
                       className="bg-white border border-[#FFCED8] rounded-xl p-3 text-xs text-[#3D3133] flex items-start justify-between gap-3 shadow-sm hover:border-[#F5A8B8] transition-colors"
@@ -314,7 +317,7 @@ export default async function DashboardPage() {
             </div>
 
             <div className="space-y-2.5">
-              {project.tasks.slice(0, 4).map((task) => {
+              {project.tasks.slice(0, 4).map((task: any) => {
                 const statusInfo = getDeadlineStatus(task.deadline, task.isCompleted);
                 return (
                   <div
@@ -388,7 +391,7 @@ export default async function DashboardPage() {
               {upcomingDeadlines.length === 0 ? (
                 <p className="text-xs text-[#A84157] py-3 text-center">Tidak ada deadline terdekat</p>
               ) : (
-                upcomingDeadlines.map((item) => {
+                upcomingDeadlines.map((item: any) => {
                   return (
                     <div
                       key={item.id}
@@ -443,7 +446,7 @@ export default async function DashboardPage() {
             </div>
 
             <div className="space-y-3">
-              {project.activityLogs.map((log) => (
+              {project.activityLogs.map((log: any) => (
                 <div key={log.id} className="flex items-start gap-2.5 text-xs">
                   <div className="w-2 h-2 rounded-full bg-[#E37F94] mt-1.5 shrink-0" />
                   <div className="flex-1 min-w-0">
