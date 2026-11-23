@@ -106,27 +106,39 @@ body {
   animation: modalPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Premium Modal Backdrop Overlay (Deep warm tone + 24px blur to completely dissolve background text) */
+/* Premium Modal Backdrop Overlay (Balanced aesthetic soft blur) */
 .modal-backdrop-overlay {
-  background-color: rgba(18, 12, 14, 0.82);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Premium Animated Buttons */
 .btn-primary-animated {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #C75C73 0%, #D8687F 50%, #863043 100%) !important;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
   position: relative;
   overflow: hidden;
   transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-  background-size: 200% auto;
+  box-shadow: 0 4px 14px -2px rgba(199, 92, 115, 0.45);
 }
 .btn-primary-animated:hover {
   transform: translateY(-1.5px) scale(1.02);
-  box-shadow: 0 8px 22px -4px rgba(199, 92, 115, 0.45);
+  box-shadow: 0 8px 22px -4px rgba(199, 92, 115, 0.55);
 }
 .btn-primary-animated:active {
   transform: translateY(0.5px) scale(0.97);
-  box-shadow: 0 3px 10px -2px rgba(199, 92, 115, 0.3);
+  box-shadow: 0 3px 10px -2px rgba(199, 92, 115, 0.35);
 }
 .btn-primary-animated::after {
   content: '';
@@ -135,7 +147,7 @@ body {
   left: 0;
   width: 50%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
   transform: translateX(-180%) skewX(-20deg);
   pointer-events: none;
 }
@@ -144,13 +156,33 @@ body {
 }
 
 .btn-secondary-animated {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6B5A5D;
+  background-color: transparent;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+  cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .btn-secondary-animated:hover {
+  background-color: #FFF0F3;
+  color: #863043;
   transform: translateY(-1px) scale(1.02);
 }
 .btn-secondary-animated:active {
   transform: translateY(0.5px) scale(0.96);
+}
+.dark .btn-secondary-animated {
+  color: #D4B8BE;
+}
+.dark .btn-secondary-animated:hover {
+  background-color: #2D2226;
+  color: #FFF0F3;
 }
 
 /* Safe area padding for mobile notches */
