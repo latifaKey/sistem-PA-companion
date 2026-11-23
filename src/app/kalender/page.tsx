@@ -138,14 +138,14 @@ export default function KalenderPage() {
             className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-[#863043] bg-[#FFF9FA] border border-[#FFCED8] hover:bg-[#FFF0F3] rounded-2xl transition-all"
           >
             <Bell className="w-3.5 h-3.5" />
-            + Buat Pengingat
+            Buat Pengingat
           </button>
           <button
             onClick={() => setIsEventModalOpen(true)}
             className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-[#863043] bg-gradient-to-r from-[#FFCED8] via-[#FFDDDD] to-[#FFE8C4] border border-[#F5A8B8] hover:opacity-95 rounded-2xl shadow-sm transition-all"
           >
             <Plus className="w-4 h-4" />
-            + Jadwal Agenda
+            Jadwal Agenda
           </button>
         </div>
       </div>

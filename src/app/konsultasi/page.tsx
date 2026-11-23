@@ -546,7 +546,7 @@ export default function KonsultasiPage() {
             className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-[#863043] dark:text-[#FFCED8] bg-[#FFF5F7] dark:bg-[#38242A] border border-[#FFCED8] dark:border-[#5E3D46] hover:bg-[#FFDDDD] rounded-2xl shadow-sm transition-all"
           >
             <Plus className="w-3.5 h-3.5" />
-            + Tambah Pembimbing
+            Tambah Pembimbing
           </button>
 
           <button
@@ -554,7 +554,7 @@ export default function KonsultasiPage() {
             className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-[#863043] dark:text-[#FFF0F3] bg-gradient-to-r from-[#FFCED8] via-[#FFDDDD] to-[#FFE8C4] dark:from-[#4D2633] dark:via-[#542D3B] dark:to-[#543428] border border-[#F5A8B8] dark:border-[#7A3C4E] hover:opacity-95 rounded-2xl shadow-sm transition-all"
           >
             <Plus className="w-4 h-4" />
-            + Catat Hasil Bimbingan
+            Catat Hasil Bimbingan
           </button>
         </div>
       </div>
@@ -851,7 +851,7 @@ export default function KonsultasiPage() {
                 className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-[#C75C73] hover:bg-[#A84157] rounded-xl shadow-sm transition-all"
               >
                 <Plus className="w-3.5 h-3.5" />
-                + Tambah Pertanyaan
+                Tambah Pertanyaan
               </button>
             </div>
           </div>

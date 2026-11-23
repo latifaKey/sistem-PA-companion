@@ -132,7 +132,7 @@ export default function LogbookPage() {
             className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-[#863043] bg-gradient-to-r from-[#FFCED8] via-[#FFDDDD] to-[#FFE8C4] border border-[#F5A8B8] hover:opacity-95 rounded-2xl shadow-sm transition-all"
           >
             <Plus className="w-4 h-4" />
-            + Tambah Log Harian
+            Tambah Log Harian
           </button>
         </div>
       </div>
