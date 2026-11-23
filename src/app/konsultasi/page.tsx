@@ -943,7 +943,7 @@ export default function KonsultasiPage() {
       {/* MODAL 1: CATAT / EDIT HASIL BIMBINGAN (WITH PERTANYAAN FIELD) */}
       {/* ============================================================ */}
       {isConsultationModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-3 sm:p-4 overflow-hidden animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center modal-backdrop-overlay p-3 sm:p-4 overflow-hidden animate-fade-in">
           <div className="bg-white dark:bg-[#231B1E] rounded-[24px] sm:rounded-[28px] shadow-2xl shadow-[#C75C73]/25 border border-[#FFCED8] dark:border-[#4A3238] w-full max-w-xl max-h-[85vh] flex flex-col overflow-hidden animate-modal-pop">
             {/* 1. FIXED HEADER */}
             <div className="shrink-0 px-6 py-4 bg-gradient-to-r from-[#FFF4DE] via-[#FFF0F3] to-[#FFCED8]/70 dark:from-[#35252A] dark:via-[#3E2930] dark:to-[#4A2E36] border-b border-[#FFCED8] dark:border-[#4A3238] flex items-center justify-between">
@@ -1167,7 +1167,7 @@ export default function KonsultasiPage() {
       {/* MODAL 2: TAMBAH / EDIT DOSEN PEMBIMBING (SUPERVISOR CRUD)     */}
       {/* ============================================================ */}
       {isSupervisorModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-3 sm:p-4 overflow-hidden animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center modal-backdrop-overlay p-3 sm:p-4 overflow-hidden animate-fade-in">
           <div className="bg-white dark:bg-[#231B1E] rounded-[24px] sm:rounded-[28px] shadow-2xl shadow-[#C75C73]/25 border border-[#FFCED8] dark:border-[#4A3238] w-full max-w-lg max-h-[85vh] flex flex-col overflow-hidden animate-modal-pop">
             {/* 1. FIXED HEADER */}
             <div className="shrink-0 px-6 py-4 bg-gradient-to-r from-[#FFF4DE] via-[#FFF0F3] to-[#FFCED8]/70 dark:from-[#35252A] dark:via-[#3E2930] dark:to-[#4A2E36] border-b border-[#FFCED8] dark:border-[#4A3238] flex items-center justify-between">
@@ -1313,7 +1313,7 @@ export default function KonsultasiPage() {
       {/* MODAL 3: TAMBAH / EDIT PERTANYAAN (QUESTION BANK CRUD)       */}
       {/* ============================================================ */}
       {isQuestionModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-3 sm:p-4 overflow-hidden animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center modal-backdrop-overlay p-3 sm:p-4 overflow-hidden animate-fade-in">
           <div className="bg-white dark:bg-[#231B1E] rounded-[24px] sm:rounded-[28px] shadow-2xl shadow-[#C75C73]/25 border border-[#FFCED8] dark:border-[#4A3238] w-full max-w-lg max-h-[85vh] flex flex-col overflow-hidden animate-modal-pop">
             {/* 1. FIXED HEADER */}
             <div className="shrink-0 px-6 py-4 bg-gradient-to-r from-[#FFF4DE] via-[#FFF0F3] to-[#FFCED8]/70 dark:from-[#35252A] dark:via-[#3E2930] dark:to-[#4A2E36] border-b border-[#FFCED8] dark:border-[#4A3238] flex items-center justify-between">

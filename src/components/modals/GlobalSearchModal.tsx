@@ -52,7 +52,7 @@ export function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-20 bg-black/60 backdrop-blur-sm p-3 sm:p-4 animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-20 modal-backdrop-overlay p-3 sm:p-4 animate-fade-in">
       <div className="bg-white dark:bg-[#231B1E] rounded-[28px] shadow-2xl shadow-[#C75C73]/25 border border-[#FFCED8] dark:border-[#4A3238] w-full max-w-xl max-h-[80vh] flex flex-col overflow-hidden animate-modal-pop">
         {/* Search Input */}
         <div className="shrink-0 p-4 border-b border-[#FFCED8] dark:border-[#4A3238] flex items-center gap-3 bg-[#FFF9FA] dark:bg-[#2D2226]">
