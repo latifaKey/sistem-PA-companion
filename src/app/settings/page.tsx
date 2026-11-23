@@ -258,53 +258,65 @@ export default function SettingsPage() {
       {/* Main Settings Form */}
       <form onSubmit={handleSave} className="space-y-6 text-xs">
         {/* Student Profile Card */}
-        <div className="bg-white dark:bg-[#2D2528] rounded-3xl border border-[#FFCED8] dark:border-[#4D383E] p-6 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#FFCED8]/40 dark:border-[#4D383E]/50">
-            <User className="w-4 h-4 text-[#C75C73] dark:text-[#FFB3C6]" />
+        <div className="bg-white dark:bg-[#231B1E] rounded-[28px] border border-[#FFCED8] dark:border-[#4A3238] p-6 shadow-sm space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#FFCED8]/40 dark:border-[#4A3238]">
+            <User className="w-4 h-4 text-[#C75C73] dark:text-[#FFB3C2]" />
             <h3 className="font-bold text-sm text-[#863043] dark:text-[#FFCED8]">Profil Mahasiswa</h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block font-semibold text-slate-700 dark:text-[#D4B8BE] mb-1">Nama Lengkap</label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">Nama Lengkap</label>
+                <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">Wajib</span>
+              </div>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full p-2.5 border border-[#FFCED8] dark:border-[#4D383E] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-semibold"
                 required
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 dark:text-[#D4B8BE] mb-1">Nomor Induk Mahasiswa (NIM)</label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">Nomor Induk Mahasiswa (NIM)</label>
+                <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">Wajib</span>
+              </div>
               <input
                 type="text"
                 value={nim}
                 onChange={(e) => setNim(e.target.value)}
-                className="w-full p-2.5 border border-[#FFCED8] dark:border-[#4D383E] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium"
                 required
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 dark:text-[#D4B8BE] mb-1">Program Studi</label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">Program Studi</label>
+                <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">Wajib</span>
+              </div>
               <input
                 type="text"
                 value={prodi}
                 onChange={(e) => setProdi(e.target.value)}
-                className="w-full p-2.5 border border-[#FFCED8] dark:border-[#4D383E] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium"
                 required
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 dark:text-[#D4B8BE] mb-1">Institusi / Politeknik</label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">Institusi / Politeknik</label>
+                <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">Wajib</span>
+              </div>
               <input
                 type="text"
                 value={institution}
                 onChange={(e) => setInstitution(e.target.value)}
-                className="w-full p-2.5 border border-[#FFCED8] dark:border-[#4D383E] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium"
                 required
               />
             </div>
@@ -312,52 +324,57 @@ export default function SettingsPage() {
         </div>
 
         {/* Project Profile Card */}
-        <div className="bg-white dark:bg-[#2D2528] rounded-3xl border border-[#FFCED8] dark:border-[#4D383E] p-6 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#FFCED8]/40 dark:border-[#4D383E]/50">
-            <BookOpen className="w-4 h-4 text-[#A84157] dark:text-[#FFB3C6]" />
+        <div className="bg-white dark:bg-[#231B1E] rounded-[28px] border border-[#FFCED8] dark:border-[#4A3238] p-6 shadow-sm space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#FFCED8]/40 dark:border-[#4A3238]">
+            <BookOpen className="w-4 h-4 text-[#C75C73] dark:text-[#FFB3C2]" />
             <h3 className="font-bold text-sm text-[#863043] dark:text-[#FFCED8]">Data Proyek Akhir (PA)</h3>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block font-semibold text-slate-700 dark:text-[#D4B8BE] mb-1">Judul Resmi Tugas Akhir</label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">Judul Resmi Tugas Akhir</label>
+                <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">Wajib</span>
+              </div>
               <textarea
                 rows={3}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full p-2.5 border border-[#FFCED8] dark:border-[#4D383E] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs font-semibold"
                 required
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-[#D4B8BE] mb-1">Tahun Akademik</label>
+                <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">Tahun Akademik</label>
                 <input
                   type="text"
                   value={academicYear}
                   onChange={(e) => setAcademicYear(e.target.value)}
-                  className="w-full p-2.5 border border-[#FFCED8] dark:border-[#4D383E] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                  placeholder="2026/2027"
+                  className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-[#D4B8BE] mb-1">Semester</label>
+                <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">Semester</label>
                 <input
                   type="text"
                   value={semester}
                   onChange={(e) => setSemester(e.target.value)}
-                  className="w-full p-2.5 border border-[#FFCED8] dark:border-[#4D383E] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                  placeholder="Semester 8"
+                  className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-[#D4B8BE] mb-1">Target Sidang Akhir</label>
+                <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">Target Sidang Akhir</label>
                 <input
                   type="date"
                   value={targetCompletion}
                   onChange={(e) => setTargetCompletion(e.target.value)}
-                  className="w-full p-2.5 border border-[#FFCED8] dark:border-[#4D383E] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                  className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium cursor-pointer"
                 />
               </div>
             </div>
@@ -368,7 +385,7 @@ export default function SettingsPage() {
         <div className="flex justify-end gap-3 pt-2">
           <button
             type="submit"
-            className="flex items-center gap-2 px-6 py-2.5 text-xs font-semibold text-white bg-[#C75C73] hover:bg-[#A84157] rounded-2xl shadow-md shadow-[#C75C73]/20 transition-all hover:scale-[1.02]"
+            className="flex items-center gap-2 px-6 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-[#C75C73] via-[#D8687F] to-[#863043] hover:opacity-95 shadow-md shadow-[#C75C73]/30 active:scale-[0.98] rounded-xl transition-all"
           >
             {isSaved ? (
               <>

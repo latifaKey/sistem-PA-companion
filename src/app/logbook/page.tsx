@@ -221,109 +221,161 @@ export default function LogbookPage() {
 
       {/* Modal Add Logbook */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl shadow-2xl border border-[#FFCED8] w-full max-w-lg overflow-hidden animate-fade-in">
-            <div className="p-4 bg-gradient-to-r from-[#FFCED8] via-[#FFDDDD] to-[#FFE8C4] text-[#863043] border-b border-[#FFCED8] flex items-center justify-between">
-              <h3 className="font-bold text-sm">Tambah Catatan Logbook Harian</h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-[#863043] hover:opacity-75">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4 animate-fade-in">
+          <div className="bg-white dark:bg-[#231B1E] rounded-[28px] shadow-2xl shadow-[#C75C73]/20 border border-[#FFCED8] dark:border-[#4A3238] w-full max-w-xl max-h-[85vh] flex flex-col overflow-hidden animate-modal-pop">
+            {/* Modal Header */}
+            <div className="shrink-0 px-6 py-4 bg-gradient-to-r from-[#FFF4DE] via-[#FFF0F3] to-[#FFCED8]/70 dark:from-[#35252A] dark:via-[#3E2930] dark:to-[#4A2E36] border-b border-[#FFCED8] dark:border-[#4A3238] flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-white dark:bg-[#2D2226] text-[#C75C73] dark:text-[#FFB3C2] flex items-center justify-center shadow-sm border border-[#FFCED8]/60 dark:border-[#52373F]">
+                  <BookMarked className="w-5 h-5 text-[#C75C73]" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-base text-[#3D3133] dark:text-[#FFF0F3] leading-tight">
+                    Tambah Entri Logbook Harian
+                  </h3>
+                  <p className="text-xs text-[#863043]/80 dark:text-[#FFCED8]/80 font-medium mt-0.5">
+                    Dokumentasikan kemajuan riset, aktivitas, kendala, dan solusinya
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#863043]/70 hover:text-[#863043] dark:text-[#FFCED8]/70 dark:hover:text-[#FFF0F3] hover:bg-white/80 dark:hover:bg-[#2D2226] transition-all"
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateLogbook} className="p-5 space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-3">
+            {/* Modal Form with Scrollable Body & Pinned Footer */}
+            <form onSubmit={handleCreateLogbook} className="flex-1 flex flex-col min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                        Tanggal Aktivitas
+                      </label>
+                      <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                        Wajib
+                      </span>
+                    </div>
+                    <input
+                      type="date"
+                      value={logDate}
+                      onChange={(e) => setLogDate(e.target.value)}
+                      className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium cursor-pointer"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                        Durasi (Menit)
+                      </label>
+                      <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                        Wajib
+                      </span>
+                    </div>
+                    <input
+                      type="number"
+                      value={durationMinutes}
+                      onChange={(e) => setDurationMinutes(e.target.value)}
+                      placeholder="120"
+                      className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium"
+                      required
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Tanggal</label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                      Aktivitas Utama Riset
+                    </label>
+                    <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                      Wajib
+                    </span>
+                  </div>
                   <input
-                    type="date"
-                    value={logDate}
-                    onChange={(e) => setLogDate(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                    type="text"
+                    value={activity}
+                    onChange={(e) => setActivity(e.target.value)}
+                    placeholder="Misal: Uji Coba Stopword Removal pada Korpus Abstrak TA 2021-2025"
+                    className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs font-semibold"
                     required
                   />
                 </div>
+
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Durasi (Menit)</label>
-                  <input
-                    type="number"
-                    value={durationMinutes}
-                    onChange={(e) => setDurationMinutes(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Aktivitas Utama</label>
-                <input
-                  type="text"
-                  value={activity}
-                  onChange={(e) => setActivity(e.target.value)}
-                  placeholder="Misal: Uji Coba Stopword Removal pada Judul TA 2021"
-                  className="w-full p-2.5 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Langkah Kerja</label>
-                <textarea
-                  rows={2}
-                  value={workSteps}
-                  onChange={(e) => setWorkSteps(e.target.value)}
-                  placeholder="Rincian yang dikerjakan..."
-                  className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                />
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Hasil</label>
-                <textarea
-                  rows={2}
-                  value={result}
-                  onChange={(e) => setResult(e.target.value)}
-                  placeholder="Output atau temuan..."
-                  className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Kendala</label>
+                  <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                    Langkah Kerja yang Dilakukan
+                  </label>
                   <textarea
                     rows={2}
-                    value={obstacles}
-                    onChange={(e) => setObstacles(e.target.value)}
-                    placeholder="Kesulitan teknis..."
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                    value={workSteps}
+                    onChange={(e) => setWorkSteps(e.target.value)}
+                    placeholder="Rincian tahapan langkah teknis pengerjaan..."
+                    className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs"
                   />
                 </div>
+
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Solusi</label>
+                  <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                    Hasil yang Dicapai & Temuan
+                  </label>
                   <textarea
                     rows={2}
-                    value={solutions}
-                    onChange={(e) => setSolutions(e.target.value)}
-                    placeholder="Cara mengatasi..."
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                    value={result}
+                    onChange={(e) => setResult(e.target.value)}
+                    placeholder="Output data, akurasi, grafik, atau hasil naskah..."
+                    className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs"
                   />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                      Kendala / Error Dihadapi
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={obstacles}
+                      onChange={(e) => setObstacles(e.target.value)}
+                      placeholder="Masalah teknis atau teori..."
+                      className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                      Solusi / Mitigasi yang Diambil
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={solutions}
+                      onChange={(e) => setSolutions(e.target.value)}
+                      placeholder="Cara menyelesaikan kendala..."
+                      className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs"
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-[#FFCED8]/40">
+              {/* Pinned Footer with Animated Buttons */}
+              <div className="shrink-0 px-6 py-3.5 bg-[#FFF9FA]/80 dark:bg-[#1C1417]/90 border-t border-[#FFCED8]/60 dark:border-[#4A3238] flex items-center justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 font-medium text-slate-600 hover:bg-[#FFF0F3] rounded-xl"
+                  className="btn-secondary-animated"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 font-semibold text-white bg-[#C75C73] hover:bg-[#A84157] rounded-xl shadow-sm transition-all"
+                  className="btn-primary-animated"
                 >
-                  Simpan Logbook
+                  <BookMarked className="w-3.5 h-3.5 group-hover:rotate-6 transition-transform" />
+                  Simpan Catatan Logbook
                 </button>
               </div>
             </form>

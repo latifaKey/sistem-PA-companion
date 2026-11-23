@@ -339,86 +339,132 @@ export default function KalenderPage() {
 
       {/* Modal Add Event */}
       {isEventModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl shadow-2xl border border-[#FFCED8] w-full max-w-md overflow-hidden animate-fade-in">
-            <div className="p-4 bg-gradient-to-r from-[#FFCED8] via-[#FFDDDD] to-[#FFE8C4] text-[#863043] border-b border-[#FFCED8] flex items-center justify-between">
-              <h3 className="font-bold text-sm">Jadwalkan Agenda Baru</h3>
-              <button onClick={() => setIsEventModalOpen(false)} className="text-[#863043] hover:opacity-75">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-3 sm:p-4 overflow-hidden animate-fade-in">
+          <div className="bg-white dark:bg-[#231B1E] rounded-[24px] sm:rounded-[28px] shadow-2xl shadow-[#C75C73]/25 border border-[#FFCED8] dark:border-[#4A3238] w-full max-w-lg max-h-[85vh] flex flex-col overflow-hidden animate-modal-pop">
+            {/* 1. FIXED HEADER */}
+            <div className="shrink-0 px-6 py-4 bg-gradient-to-r from-[#FFF4DE] via-[#FFF0F3] to-[#FFCED8]/70 dark:from-[#35252A] dark:via-[#3E2930] dark:to-[#4A2E36] border-b border-[#FFCED8] dark:border-[#4A3238] flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-white dark:bg-[#2D2226] text-[#C75C73] dark:text-[#FFB3C2] flex items-center justify-center shadow-sm border border-[#FFCED8]/60 dark:border-[#52373F]">
+                  <CalendarCheck className="w-5 h-5 text-[#C75C73]" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-sm sm:text-base text-[#3D3133] dark:text-[#FFF0F3] leading-tight">
+                    Jadwalkan Agenda Baru
+                  </h3>
+                  <p className="text-[11px] sm:text-xs text-[#863043]/80 dark:text-[#FFCED8]/80 font-medium mt-0.5">
+                    Catat jadwal bimbingan, seminar, atau target akademik
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsEventModalOpen(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#863043]/70 hover:text-[#863043] dark:text-[#FFCED8]/70 dark:hover:text-[#FFF0F3] hover:bg-white/80 dark:hover:bg-[#2D2226] transition-all hover:rotate-90 duration-200"
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateEvent} className="p-5 space-y-3 text-xs">
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Judul Agenda</label>
-                <input
-                  type="text"
-                  value={eventTitle}
-                  onChange={(e) => setEventTitle(e.target.value)}
-                  placeholder="Misal: Bimbingan Bab III dengan Pembimbing 1"
-                  className="w-full p-2.5 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
+            {/* 2. SCROLLABLE FORM BODY */}
+            <form onSubmit={handleCreateEvent} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="overflow-y-auto p-5 sm:p-6 space-y-4 flex-1 text-xs">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Tanggal</label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                      Judul Agenda Kegiatan
+                    </label>
+                    <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                      Wajib
+                    </span>
+                  </div>
                   <input
-                    type="date"
-                    value={eventDate}
-                    onChange={(e) => setEventDate(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                    type="text"
+                    value={eventTitle}
+                    onChange={(e) => setEventTitle(e.target.value)}
+                    placeholder="Misal: Bimbingan Bab III dengan Pembimbing 1"
+                    className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs font-semibold"
                     required
                   />
                 </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                        Tanggal
+                      </label>
+                      <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                        Wajib
+                      </span>
+                    </div>
+                    <input
+                      type="date"
+                      value={eventDate}
+                      onChange={(e) => setEventDate(e.target.value)}
+                      className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium cursor-pointer"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                        Waktu
+                      </label>
+                      <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                        Wajib
+                      </span>
+                    </div>
+                    <input
+                      type="time"
+                      value={eventTime}
+                      onChange={(e) => setEventTime(e.target.value)}
+                      className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium cursor-pointer"
+                      required
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Waktu</label>
+                  <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                    Lokasi / Media Pertemuan
+                  </label>
                   <input
-                    type="time"
-                    value={eventTime}
-                    onChange={(e) => setEventTime(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                    required
+                    type="text"
+                    value={eventLocation}
+                    onChange={(e) => setEventLocation(e.target.value)}
+                    placeholder="Misal: Ruang Dosen TI PNP / Google Meet"
+                    className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs font-medium"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                    Deskripsi & Catatan Agenda
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={eventDesc}
+                    onChange={(e) => setEventDesc(e.target.value)}
+                    placeholder="Rincian poin yang akan dibahas atau dipersiapkan..."
+                    className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs"
                   />
                 </div>
               </div>
 
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Lokasi / Media</label>
-                <input
-                  type="text"
-                  value={eventLocation}
-                  onChange={(e) => setEventLocation(e.target.value)}
-                  placeholder="Ruang Dosen TI PNP / Google Meet"
-                  className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                />
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Deskripsi & Catatan</label>
-                <textarea
-                  rows={2}
-                  value={eventDesc}
-                  onChange={(e) => setEventDesc(e.target.value)}
-                  placeholder="Hal yang dibahas..."
-                  className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                />
-              </div>
-
-              <div className="flex justify-end gap-2 pt-2 border-t border-[#FFCED8]/40">
+              {/* 3. FIXED FOOTER WITH ANIMATED BUTTONS */}
+              <div className="shrink-0 px-6 py-3.5 bg-slate-50/90 dark:bg-[#1E1719]/95 border-t border-[#FFCED8]/60 dark:border-[#4A3238] flex items-center justify-end gap-3 backdrop-blur-sm">
                 <button
                   type="button"
                   onClick={() => setIsEventModalOpen(false)}
-                  className="px-4 py-2 font-medium text-slate-600 hover:bg-[#FFF0F3] rounded-xl"
+                  className="btn-secondary-animated px-4 py-2.5 text-xs font-bold text-[#6B5A5D] dark:text-[#D4B8BE] hover:bg-[#FFF0F3] dark:hover:bg-[#2D2226] rounded-xl transition-all"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 font-semibold text-white bg-[#C75C73] hover:bg-[#A84157] rounded-xl shadow-sm transition-all"
+                  className="btn-primary-animated px-6 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-[#C75C73] via-[#D8687F] to-[#863043] rounded-xl shadow-md shadow-[#C75C73]/30 flex items-center gap-2 group cursor-pointer"
                 >
-                  Simpan Jadwal
+                  <CalendarCheck className="w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Simpan Jadwal Agenda</span>
                 </button>
               </div>
             </form>
@@ -428,78 +474,117 @@ export default function KalenderPage() {
 
       {/* Modal Add Reminder */}
       {isReminderModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl shadow-2xl border border-[#FFCED8] w-full max-w-md overflow-hidden animate-fade-in">
-            <div className="p-4 bg-gradient-to-r from-[#FFCED8] via-[#FFDDDD] to-[#FFE8C4] text-[#863043] border-b border-[#FFCED8] flex items-center justify-between">
-              <h3 className="font-bold text-sm">Buat Pengingat Tenggat (Reminder)</h3>
-              <button onClick={() => setIsReminderModalOpen(false)} className="text-[#863043] hover:opacity-75">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-3 sm:p-4 overflow-hidden animate-fade-in">
+          <div className="bg-white dark:bg-[#231B1E] rounded-[24px] sm:rounded-[28px] shadow-2xl shadow-[#C75C73]/25 border border-[#FFCED8] dark:border-[#4A3238] w-full max-w-lg max-h-[85vh] flex flex-col overflow-hidden animate-modal-pop">
+            {/* 1. FIXED HEADER */}
+            <div className="shrink-0 px-6 py-4 bg-gradient-to-r from-[#FFF4DE] via-[#FFF0F3] to-[#FFCED8]/70 dark:from-[#35252A] dark:via-[#3E2930] dark:to-[#4A2E36] border-b border-[#FFCED8] dark:border-[#4A3238] flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-white dark:bg-[#2D2226] text-[#C75C73] dark:text-[#FFB3C2] flex items-center justify-center shadow-sm border border-[#FFCED8]/60 dark:border-[#52373F]">
+                  <Bell className="w-5 h-5 text-[#C75C73]" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-sm sm:text-base text-[#3D3133] dark:text-[#FFF0F3] leading-tight">
+                    Buat Pengingat Tenggat (Reminder)
+                  </h3>
+                  <p className="text-[11px] sm:text-xs text-[#863043]/80 dark:text-[#FFCED8]/80 font-medium mt-0.5">
+                    Notifikasi batas waktu pengumpulan berkas atau revisi
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsReminderModalOpen(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#863043]/70 hover:text-[#863043] dark:text-[#FFCED8]/70 dark:hover:text-[#FFF0F3] hover:bg-white/80 dark:hover:bg-[#2D2226] transition-all hover:rotate-90 duration-200"
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateReminder} className="p-5 space-y-3 text-xs">
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Judul Pengingat</label>
-                <input
-                  type="text"
-                  value={remTitle}
-                  onChange={(e) => setRemTitle(e.target.value)}
-                  placeholder="Misal: Batas akhir revisi format IEEE"
-                  className="w-full p-2.5 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
+            {/* 2. SCROLLABLE FORM BODY */}
+            <form onSubmit={handleCreateReminder} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="overflow-y-auto p-5 sm:p-6 space-y-4 flex-1 text-xs">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Tanggal Tenggat</label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                      Judul Pengingat
+                    </label>
+                    <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                      Wajib
+                    </span>
+                  </div>
                   <input
-                    type="date"
-                    value={remDate}
-                    onChange={(e) => setRemDate(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                    type="text"
+                    value={remTitle}
+                    onChange={(e) => setRemTitle(e.target.value)}
+                    placeholder="Misal: Batas akhir upload naskah proposal ke SITA PNP"
+                    className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs font-semibold"
                     required
                   />
                 </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                        Tanggal Tenggat
+                      </label>
+                      <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                        Wajib
+                      </span>
+                    </div>
+                    <input
+                      type="date"
+                      value={remDate}
+                      onChange={(e) => setRemDate(e.target.value)}
+                      className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium cursor-pointer"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                      Tingkat Prioritas
+                    </label>
+                    <select
+                      value={remPriority}
+                      onChange={(e) => setRemPriority(e.target.value)}
+                      className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium cursor-pointer"
+                    >
+                      <option value="Low">Low (Biasa)</option>
+                      <option value="Medium">Medium (Sedang)</option>
+                      <option value="High">High (Penting)</option>
+                      <option value="Critical">Critical (Sangat Mendesak)</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Prioritas</label>
-                  <select
-                    value={remPriority}
-                    onChange={(e) => setRemPriority(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                  >
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                    <option value="Critical">Critical</option>
-                  </select>
+                  <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                    Catatan Tambahan
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={remNotes}
+                    onChange={(e) => setRemNotes(e.target.value)}
+                    placeholder="Catatan atau lampiran yang perlu disiapkan..."
+                    className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs"
+                  />
                 </div>
               </div>
 
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Catatan Tambahan</label>
-                <textarea
-                  rows={2}
-                  value={remNotes}
-                  onChange={(e) => setRemNotes(e.target.value)}
-                  placeholder="Detail pengingat..."
-                  className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                />
-              </div>
-
-              <div className="flex justify-end gap-2 pt-2 border-t border-[#FFCED8]/40">
+              {/* 3. FIXED FOOTER WITH ANIMATED BUTTONS */}
+              <div className="shrink-0 px-6 py-3.5 bg-slate-50/90 dark:bg-[#1E1719]/95 border-t border-[#FFCED8]/60 dark:border-[#4A3238] flex items-center justify-end gap-3 backdrop-blur-sm">
                 <button
                   type="button"
                   onClick={() => setIsReminderModalOpen(false)}
-                  className="px-4 py-2 font-medium text-slate-600 hover:bg-[#FFF0F3] rounded-xl"
+                  className="btn-secondary-animated px-4 py-2.5 text-xs font-bold text-[#6B5A5D] dark:text-[#D4B8BE] hover:bg-[#FFF0F3] dark:hover:bg-[#2D2226] rounded-xl transition-all"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 font-semibold text-white bg-[#C75C73] hover:bg-[#A84157] rounded-xl shadow-sm transition-all"
+                  className="btn-primary-animated px-6 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-[#C75C73] via-[#D8687F] to-[#863043] rounded-xl shadow-md shadow-[#C75C73]/30 flex items-center gap-2 group cursor-pointer"
                 >
-                  Simpan Pengingat
+                  <Bell className="w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Simpan Pengingat</span>
                 </button>
               </div>
             </form>

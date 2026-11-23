@@ -204,6 +204,39 @@ export const fallbackConsultations = [
   },
 ];
 
+export const fallbackConsultationQuestions = [
+  {
+    id: 'cq-1',
+    supervisorId: 'sup-1',
+    supervisor: fallbackSupervisors[0],
+    category: 'Metodologi',
+    questionText: 'Bagaimana penanganan word sparsity jika permohonan teks abstrak ke TIPD PNP membutuhkan waktu lama?',
+    status: 'ASKED',
+    answerNotes: 'Disarankan tetap ajukan surat izin resmi, sembari menyiapkan skenario mitigasi penambahan bobot n-gram dan leksikon istilah TRPL.',
+    createdAt: new Date('2026-11-10'),
+  },
+  {
+    id: 'cq-2',
+    supervisorId: 'sup-2',
+    supervisor: fallbackSupervisors[1],
+    category: 'Dataset',
+    questionText: 'Apakah proporsi split 253 data training (2021-2025) dan 121 data holdout (2026) sudah representatif untuk evaluasi model LDA?',
+    status: 'UNASKED',
+    answerNotes: null,
+    createdAt: new Date('2026-11-18'),
+  },
+  {
+    id: 'cq-3',
+    supervisorId: 'sup-1',
+    supervisor: fallbackSupervisors[0],
+    category: 'Revisi Reviewer',
+    questionText: 'Apakah diagram alur skema batch update CSV yang ditambahkan di Bab III sudah sesuai dengan masukan Reviewer 2?',
+    status: 'UNASKED',
+    answerNotes: null,
+    createdAt: new Date('2026-11-20'),
+  },
+];
+
 export const fallbackDatasets = [
   {
     id: 'dataset-1',
@@ -537,6 +570,7 @@ export const fallbackProject = {
   supervisors: fallbackSupervisors,
   reminders: fallbackReminders,
   consultations: fallbackConsultations,
+  consultationQuestions: fallbackConsultationQuestions,
   datasets: fallbackDatasets,
   references: fallbackReferences,
   activityLogs: fallbackActivityLogs,

@@ -52,20 +52,23 @@ export function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/30 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-2xl shadow-2xl border border-[#FFCED8] w-full max-w-xl overflow-hidden animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-20 bg-black/60 backdrop-blur-sm p-3 sm:p-4 animate-fade-in">
+      <div className="bg-white dark:bg-[#231B1E] rounded-[28px] shadow-2xl shadow-[#C75C73]/25 border border-[#FFCED8] dark:border-[#4A3238] w-full max-w-xl max-h-[80vh] flex flex-col overflow-hidden animate-modal-pop">
         {/* Search Input */}
-        <div className="p-4 border-b border-[#FFDDDD] flex items-center gap-3 bg-[#FFF9FA]">
-          <Search className="w-5 h-5 text-[#A84157]" />
+        <div className="shrink-0 p-4 border-b border-[#FFCED8] dark:border-[#4A3238] flex items-center gap-3 bg-[#FFF9FA] dark:bg-[#2D2226]">
+          <Search className="w-5 h-5 text-[#C75C73]" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Ketik kata kunci (misal: 'abstrak', 'LDA', 'bimbingan', 'revisi')..."
-            className="w-full text-xs font-semibold focus:outline-none placeholder-[#A84157]/60 bg-transparent text-[#3D3133]"
+            className="w-full text-xs font-semibold focus:outline-none placeholder-[#A84157]/60 dark:placeholder-[#FFB3C2]/60 bg-transparent text-[#3D3133] dark:text-[#FFF0F3]"
             autoFocus
           />
-          <button onClick={onClose} className="text-[#A84157] hover:text-[#863043] p-1">
+          <button
+            onClick={onClose}
+            className="text-[#863043]/70 hover:text-[#863043] dark:text-[#FFCED8]/70 dark:hover:text-[#FFF0F3] p-1.5 rounded-full hover:bg-white dark:hover:bg-[#3D2C31] transition-all"
+          >
             <X className="w-4 h-4" />
           </button>
         </div>

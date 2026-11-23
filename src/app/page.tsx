@@ -42,7 +42,7 @@ export default function DashboardPage() {
           }));
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // Calculate statistics
@@ -68,7 +68,7 @@ export default function DashboardPage() {
 
   // Filter tasks with deadlines
   const upcomingDeadlines = (project.tasks || [])
-    .filter((t) => t.deadline && !t.isCompleted)
+    .filter((t: any) => t.deadline && !t.isCompleted)
     .slice(0, 5);
 
   const primarySupervisor = project.consultations?.[0]?.supervisor?.name || 'Dr. Eng. Ir. Riko Ervil, M.Kom';
@@ -363,7 +363,7 @@ export default function DashboardPage() {
               {upcomingDeadlines.length === 0 ? (
                 <p className="text-xs text-[#A84157] dark:text-[#FFB3C6] py-3 text-center">Tidak ada deadline terdekat</p>
               ) : (
-                upcomingDeadlines.map((item) => {
+                upcomingDeadlines.map((item: any) => {
                   return (
                     <div
                       key={item.id}

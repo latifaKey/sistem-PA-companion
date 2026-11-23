@@ -671,123 +671,161 @@ export default function TasksPage() {
 
       {/* Create Task Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white dark:bg-[#2D2528] rounded-3xl shadow-2xl border border-[#FFCED8] dark:border-[#4D383E] w-full max-w-lg overflow-hidden animate-fade-in">
-            <div className="p-4 bg-gradient-to-r from-[#FFCED8] via-[#FFDDDD] to-[#FFE8C4] dark:from-[#4D2633] dark:via-[#542D3B] dark:to-[#543428] text-[#863043] dark:text-[#FFF0F3] flex items-center justify-between border-b border-[#FFCED8] dark:border-[#4D383E]">
-              <h3 className="font-extrabold text-sm">Tambah Pekerjaan (Task) Baru</h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-[#863043] dark:text-[#FFF0F3] hover:opacity-80">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-3 sm:p-4 overflow-hidden animate-fade-in">
+          <div className="bg-white dark:bg-[#231B1E] rounded-[24px] sm:rounded-[28px] shadow-2xl shadow-[#C75C73]/25 border border-[#FFCED8] dark:border-[#4A3238] w-full max-w-lg max-h-[85vh] flex flex-col overflow-hidden animate-modal-pop">
+            {/* 1. FIXED HEADER */}
+            <div className="shrink-0 px-6 py-4 bg-gradient-to-r from-[#FFF4DE] via-[#FFF0F3] to-[#FFCED8]/70 dark:from-[#35252A] dark:via-[#3E2930] dark:to-[#4A2E36] border-b border-[#FFCED8] dark:border-[#4A3238] flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-white dark:bg-[#2D2226] text-[#C75C73] dark:text-[#FFB3C2] flex items-center justify-center shadow-sm border border-[#FFCED8]/60 dark:border-[#52373F]">
+                  <CheckSquare className="w-5 h-5 text-[#C75C73]" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-sm sm:text-base text-[#3D3133] dark:text-[#FFF0F3] leading-tight">
+                    Tambah Pekerjaan Baru
+                  </h3>
+                  <p className="text-[11px] sm:text-xs text-[#863043]/80 dark:text-[#FFCED8]/80 font-medium mt-0.5">
+                    Rencanakan tugas skripsi & tracking ke Kanban Board
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#863043]/70 hover:text-[#863043] dark:text-[#FFCED8]/70 dark:hover:text-[#FFF0F3] hover:bg-white/80 dark:hover:bg-[#2D2226] transition-all hover:rotate-90 duration-200"
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateTask} className="p-5 space-y-3.5 text-xs">
-              <div>
-                <label className="block font-bold text-[#3D3133] dark:text-[#FFF0F3] mb-1">Judul Pekerjaan</label>
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Misal: Perbaiki Bab 3 sesuai catatan Reviewer 1"
-                  className="w-full p-2.5 border border-[#FFCED8] dark:border-[#4D383E] bg-[#FFF9FA] dark:bg-[#241E20] text-[#3D3133] dark:text-[#FFF0F3] rounded-xl focus:ring-2 focus:ring-[#C75C73] focus:outline-none text-xs"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block font-bold text-[#3D3133] dark:text-[#FFF0F3] mb-1">Deskripsi & Catatan</label>
-                <textarea
-                  rows={2}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Detail instruksi atau langkah pekerjaan..."
-                  className="w-full p-2.5 border border-[#FFCED8] dark:border-[#4D383E] bg-[#FFF9FA] dark:bg-[#241E20] text-[#3D3133] dark:text-[#FFF0F3] rounded-xl focus:ring-2 focus:ring-[#C75C73] focus:outline-none text-xs"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
+            {/* 2. SCROLLABLE FORM BODY */}
+            <form onSubmit={handleCreateTask} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="overflow-y-auto p-5 sm:p-6 space-y-4 flex-1 text-xs">
                 <div>
-                  <label className="block font-bold text-[#3D3133] dark:text-[#FFF0F3] mb-1">Kategori</label>
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] dark:border-[#4D383E] bg-[#FFF9FA] dark:bg-[#241E20] text-[#3D3133] dark:text-[#FFF0F3] rounded-xl focus:outline-none"
-                  >
-                    {CATEGORIES.filter((c) => c !== 'All').map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block font-bold text-[#3D3133] dark:text-[#FFF0F3] mb-1">Prioritas</label>
-                  <select
-                    value={priority}
-                    onChange={(e) => setPriority(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] dark:border-[#4D383E] bg-[#FFF9FA] dark:bg-[#241E20] text-[#3D3133] dark:text-[#FFF0F3] rounded-xl focus:outline-none"
-                  >
-                    {PRIORITIES.filter((p) => p !== 'All').map((p) => (
-                      <option key={p} value={p}>
-                        {p}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-bold text-[#3D3133] dark:text-[#FFF0F3] mb-1">Status Awal</label>
-                  <select
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] dark:border-[#4D383E] bg-[#FFF9FA] dark:bg-[#241E20] text-[#3D3133] dark:text-[#FFF0F3] rounded-xl focus:outline-none"
-                  >
-                    {COLUMNS.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block font-bold text-[#3D3133] dark:text-[#FFF0F3] mb-1">Tenggat (Deadline)</label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                      Judul Pekerjaan / Task
+                    </label>
+                    <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                      Wajib
+                    </span>
+                  </div>
                   <input
-                    type="date"
-                    value={deadline}
-                    onChange={(e) => setDeadline(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] dark:border-[#4D383E] bg-[#FFF9FA] dark:bg-[#241E20] text-[#3D3133] dark:text-[#FFF0F3] rounded-xl focus:outline-none"
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Misal: Perbaiki Bab 3 metodologi n-gram & TF-IDF"
+                    className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:ring-4 focus:ring-[#C75C73]/15 focus:border-[#C75C73] focus:outline-none placeholder-[#A84157]/45 transition-all text-xs font-semibold"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                    Deskripsi & Detail Instruksi
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Detail catatan atau referensi terkait pekerjaan ini..."
+                    className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:ring-4 focus:ring-[#C75C73]/15 focus:border-[#C75C73] focus:outline-none placeholder-[#A84157]/45 transition-all text-xs"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                      Kategori Bidang
+                    </label>
+                    <select
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:ring-4 focus:ring-[#C75C73]/15 focus:border-[#C75C73] focus:outline-none transition-all cursor-pointer font-medium"
+                    >
+                      {CATEGORIES.filter((c) => c !== 'All').map((c) => (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                      Tingkat Prioritas
+                    </label>
+                    <select
+                      value={priority}
+                      onChange={(e) => setPriority(e.target.value)}
+                      className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:ring-4 focus:ring-[#C75C73]/15 focus:border-[#C75C73] focus:outline-none transition-all cursor-pointer font-medium"
+                    >
+                      {PRIORITIES.filter((p) => p !== 'All').map((p) => (
+                        <option key={p} value={p}>
+                          {p}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                      Status Kolom Awal
+                    </label>
+                    <select
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value)}
+                      className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:ring-4 focus:ring-[#C75C73]/15 focus:border-[#C75C73] focus:outline-none transition-all cursor-pointer font-medium"
+                    >
+                      {COLUMNS.map((c) => (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                      Target Tenggat (Deadline)
+                    </label>
+                    <input
+                      type="date"
+                      value={deadline}
+                      onChange={(e) => setDeadline(e.target.value)}
+                      className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:ring-4 focus:ring-[#C75C73]/15 focus:border-[#C75C73] focus:outline-none transition-all cursor-pointer font-medium"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                    Subtask / Checklist Rincian <span className="text-[10px] text-slate-400 font-normal">(1 baris per langkah)</span>
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={subtasksInput}
+                    onChange={(e) => setSubtasksInput(e.target.value)}
+                    placeholder="Rancang matriks revisi&#10;Kompensasi stopword n-gram&#10;Update Bab III naskah"
+                    className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-[#4A3238] bg-slate-50/70 dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:bg-white dark:focus:bg-[#20181A] focus:ring-4 focus:ring-[#C75C73]/15 focus:border-[#C75C73] focus:outline-none placeholder-[#A84157]/45 transition-all text-xs"
                   />
                 </div>
               </div>
 
-              <div>
-                <label className="block font-bold text-[#3D3133] dark:text-[#FFF0F3] mb-1">
-                  Subtask / Checklist (1 baris per subtask)
-                </label>
-                <textarea
-                  rows={2}
-                  value={subtasksInput}
-                  onChange={(e) => setSubtasksInput(e.target.value)}
-                  placeholder="Subtask 1&#10;Subtask 2"
-                  className="w-full p-2 border border-[#FFCED8] dark:border-[#4D383E] bg-[#FFF9FA] dark:bg-[#241E20] text-[#3D3133] dark:text-[#FFF0F3] rounded-xl focus:outline-none text-xs"
-                />
-              </div>
-
-              <div className="flex justify-end gap-2 pt-2 border-t border-[#FFDDDD] dark:border-[#4D383E]">
+              {/* 3. FIXED FOOTER WITH ANIMATED BUTTONS */}
+              <div className="shrink-0 px-6 py-3.5 bg-slate-50/90 dark:bg-[#1E1719]/95 border-t border-[#FFCED8]/60 dark:border-[#4A3238] flex items-center justify-end gap-3 backdrop-blur-sm">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 font-semibold text-[#6B5A5D] dark:text-[#D4B8BE] hover:bg-[#FFF0F3] dark:hover:bg-[#38242A] rounded-xl"
+                  className="btn-secondary-animated px-4 py-2.5 text-xs font-bold text-[#6B5A5D] dark:text-[#D4B8BE] hover:bg-[#FFF0F3] dark:hover:bg-[#2D2226] rounded-xl transition-all"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting || !title.trim()}
-                  className="px-5 py-2 font-bold text-[#863043] dark:text-[#FFF0F3] bg-gradient-to-r from-[#FFCED8] via-[#FFDDDD] to-[#FFE8C4] dark:from-[#4D2633] dark:via-[#542D3B] dark:to-[#543428] hover:opacity-90 border border-[#F5A8B8] dark:border-[#7A3C4E] rounded-xl shadow-sm transition-all disabled:opacity-50"
+                  className="btn-primary-animated px-6 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-[#C75C73] via-[#D8687F] to-[#863043] rounded-xl shadow-md shadow-[#C75C73]/30 flex items-center gap-2 group cursor-pointer disabled:opacity-50"
                 >
-                  {isSubmitting ? 'Menyimpan...' : 'Simpan Task'}
+                  <CheckSquare className="w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-300" />
+                  <span>{isSubmitting ? 'Menyimpan...' : 'Simpan Task Baru'}</span>
                 </button>
               </div>
             </form>

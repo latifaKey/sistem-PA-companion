@@ -371,107 +371,165 @@ export default function ExperimentsPage() {
 
       {/* Modal Add Experiment */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl shadow-2xl border border-[#FFCED8] w-full max-w-lg overflow-hidden animate-fade-in">
-            <div className="p-4 bg-gradient-to-r from-[#FFCED8] via-[#FFDDDD] to-[#FFE8C4] text-[#863043] border-b border-[#FFCED8] flex items-center justify-between">
-              <h3 className="font-bold text-sm">Catat Uji Coba Eksperimen LDA Baru</h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-[#863043] hover:opacity-75">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4 animate-fade-in">
+          <div className="bg-white dark:bg-[#231B1E] rounded-[28px] shadow-2xl shadow-[#C75C73]/20 border border-[#FFCED8] dark:border-[#4A3238] w-full max-w-lg max-h-[85vh] flex flex-col overflow-hidden animate-modal-pop">
+            <div className="shrink-0 px-6 py-4 bg-gradient-to-r from-[#FFF4DE] via-[#FFF0F3] to-[#FFCED8]/70 dark:from-[#35252A] dark:via-[#3E2930] dark:to-[#4A2E36] border-b border-[#FFCED8] dark:border-[#4A3238] flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-white dark:bg-[#2D2226] text-[#C75C73] dark:text-[#FFB3C2] flex items-center justify-center shadow-sm border border-[#FFCED8]/60 dark:border-[#52373F]">
+                  <FlaskConical className="w-5 h-5 text-[#C75C73]" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-base text-[#3D3133] dark:text-[#FFF0F3] leading-tight">
+                    Catat Uji Coba Eksperimen LDA Baru
+                  </h3>
+                  <p className="text-xs text-[#863043]/80 dark:text-[#FFCED8]/80 font-medium mt-0.5">
+                    Dokumentasikan tuning hyperparameter & metrik evaluasi model
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#863043]/70 hover:text-[#863043] dark:text-[#FFCED8]/70 dark:hover:text-[#FFF0F3] hover:bg-white/80 dark:hover:bg-[#2D2226] transition-all"
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateExperiment} className="p-5 space-y-3 text-xs">
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Nama Eksperimen</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Misal: Uji Tuning Topik K=8 dengan Alpha Symmetric"
-                  className="w-full p-2.5 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
+            <form onSubmit={handleCreateExperiment} className="flex-1 flex flex-col min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 text-xs">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Kode Eksperimen</label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                      Nama Eksperimen
+                    </label>
+                    <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                      Wajib
+                    </span>
+                  </div>
                   <input
                     type="text"
-                    value={experimentCode}
-                    onChange={(e) => setExperimentCode(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Misal: Uji Tuning Topik K=8 dengan Alpha Symmetric"
+                    className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs font-semibold"
                     required
                   />
                 </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                        Kode Uji
+                      </label>
+                      <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                        Wajib
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      value={experimentCode}
+                      onChange={(e) => setExperimentCode(e.target.value)}
+                      placeholder="EXP-006"
+                      className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="font-bold text-[#3D3133] dark:text-[#EAE0E3]">
+                        Jumlah Topik (K)
+                      </label>
+                      <span className="text-[10px] text-[#C75C73] font-semibold bg-[#FFCED8]/40 dark:bg-[#4D2633] px-2 py-0.5 rounded-full">
+                        Wajib
+                      </span>
+                    </div>
+                    <input
+                      type="number"
+                      value={numTopicsK}
+                      onChange={(e) => setNumTopicsK(e.target.value)}
+                      placeholder="8"
+                      className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none transition-all font-medium"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-[#FFF9FA] dark:bg-[#1E1719] border border-[#FFCED8]/70 dark:border-[#452D34] space-y-2.5">
+                  <div className="text-[11px] font-bold text-[#863043] dark:text-[#FFB3C2]">
+                    Metrik Evaluasi Model
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    <div>
+                      <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1">
+                        Coherence (Cv)
+                      </label>
+                      <input
+                        type="text"
+                        value={coherenceCv}
+                        onChange={(e) => setCoherenceCv(e.target.value)}
+                        placeholder="0.592"
+                        className="w-full px-2.5 py-2 border border-[#FFCED8] dark:border-[#4A3238] bg-white dark:bg-[#241E20] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:border-[#C75C73] focus:ring-2 focus:ring-[#C75C73]/20 focus:outline-none transition-all font-semibold"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1">
+                        Diversity
+                      </label>
+                      <input
+                        type="text"
+                        value={topicDiversity}
+                        onChange={(e) => setTopicDiversity(e.target.value)}
+                        placeholder="0.82"
+                        className="w-full px-2.5 py-2 border border-[#FFCED8] dark:border-[#4A3238] bg-white dark:bg-[#241E20] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:border-[#C75C73] focus:ring-2 focus:ring-[#C75C73]/20 focus:outline-none transition-all font-semibold"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1">
+                        Redundancy
+                      </label>
+                      <input
+                        type="text"
+                        value={redundancyScore}
+                        onChange={(e) => setRedundancyScore(e.target.value)}
+                        placeholder="0.14"
+                        className="w-full px-2.5 py-2 border border-[#FFCED8] dark:border-[#4A3238] bg-white dark:bg-[#241E20] text-[#241E20] dark:text-[#FFF0F3] rounded-xl focus:border-[#C75C73] focus:ring-2 focus:ring-[#C75C73]/20 focus:outline-none transition-all font-semibold"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Jumlah Topik (K)</label>
-                  <input
-                    type="number"
-                    value={numTopicsK}
-                    onChange={(e) => setNumTopicsK(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                    required
+                  <label className="block font-bold text-[#3D3133] dark:text-[#EAE0E3] mb-1.5">
+                    Tujuan / Catatan Analisis Model
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={hypothesisOrGoal}
+                    onChange={(e) => setHypothesisOrGoal(e.target.value)}
+                    placeholder="Catatan hasil pengujian model, parameter stopword, atau alpha/beta priors..."
+                    className="w-full px-3.5 py-2.5 border border-[#FFCED8] dark:border-[#4A3238] bg-[#FFF9FA] dark:bg-[#1A1416] text-[#241E20] dark:text-[#FFF0F3] rounded-2xl focus:bg-white dark:focus:bg-[#20181A] focus:border-[#C75C73] focus:ring-4 focus:ring-[#C75C73]/15 focus:outline-none placeholder-[#A84157]/45 transition-all text-xs"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Coherence (Cv)</label>
-                  <input
-                    type="text"
-                    value={coherenceCv}
-                    onChange={(e) => setCoherenceCv(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Topic Diversity</label>
-                  <input
-                    type="text"
-                    value={topicDiversity}
-                    onChange={(e) => setTopicDiversity(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Redundancy</label>
-                  <input
-                    type="text"
-                    value={redundancyScore}
-                    onChange={(e) => setRedundancyScore(e.target.value)}
-                    className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Tujuan / Catatan Analisis</label>
-                <textarea
-                  rows={2}
-                  value={hypothesisOrGoal}
-                  onChange={(e) => setHypothesisOrGoal(e.target.value)}
-                  placeholder="Catatan hasil pengujian model..."
-                  className="w-full p-2 border border-[#FFCED8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C75C73]/30"
-                />
-              </div>
-
-              <div className="flex justify-end gap-2 pt-2 border-t border-[#FFCED8]/40">
+              <div className="shrink-0 px-6 py-3.5 bg-[#FFF9FA]/80 dark:bg-[#1C1417]/90 border-t border-[#FFCED8]/60 dark:border-[#4A3238] flex items-center justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 font-medium text-slate-600 hover:bg-[#FFF0F3] rounded-xl"
+                  className="btn-secondary-animated"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 font-semibold text-white bg-[#C75C73] hover:bg-[#A84157] rounded-xl shadow-sm transition-all"
+                  className="btn-primary-animated"
                 >
+                  <FlaskConical className="w-3.5 h-3.5 group-hover:rotate-6 transition-transform" />
                   Simpan Eksperimen
                 </button>
               </div>

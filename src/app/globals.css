@@ -74,12 +74,76 @@ body {
   }
 }
 
+@keyframes modalPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes shineSweep {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
 .page-transition {
   animation: pageFadeIn 0.15s ease-out forwards;
 }
 
 .animate-fade-in {
   animation: pageFadeIn 0.15s ease-out forwards;
+}
+
+.animate-modal-pop {
+  animation: modalPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Premium Animated Buttons */
+.btn-primary-animated {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  background-size: 200% auto;
+}
+.btn-primary-animated:hover {
+  transform: translateY(-1.5px) scale(1.02);
+  box-shadow: 0 8px 22px -4px rgba(199, 92, 115, 0.45);
+}
+.btn-primary-animated:active {
+  transform: translateY(0.5px) scale(0.97);
+  box-shadow: 0 3px 10px -2px rgba(199, 92, 115, 0.3);
+}
+.btn-primary-animated::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+  transform: translateX(-180%) skewX(-20deg);
+  pointer-events: none;
+}
+.btn-primary-animated:hover::after {
+  animation: shineSweep 0.75s ease-in-out;
+}
+
+.btn-secondary-animated {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-secondary-animated:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+.btn-secondary-animated:active {
+  transform: translateY(0.5px) scale(0.96);
 }
 
 /* Safe area padding for mobile notches */
